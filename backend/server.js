@@ -48,10 +48,15 @@ app.use((err, req, res, next) => {
   })
 })
 
-app.listen(PORT, () => {
-  console.log(`✅ VeriLens backend running at http://localhost:${PORT}`)
-  console.log(`   Health check: http://localhost:${PORT}/api/health`)
-  if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_api_key_here') {
-    console.warn('⚠️  OPENAI_API_KEY is not set — AI analysis will fail. Add it to .env')
-  }
-})
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`✅ VeriLens backend running at http://localhost:${PORT}`)
+    console.log(`   Health check: http://localhost:${PORT}/api/health`)
+    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_api_key_here') {
+      console.warn('⚠️  OPENAI_API_KEY is not set — AI analysis will fail. Add it to .env')
+    }
+  })
+}
+
+module.exports = app
+
